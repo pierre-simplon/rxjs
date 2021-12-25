@@ -1,4 +1,8 @@
-import { fromEvent } from "rxjs";
+import { of } from "rxjs";
+
+function hello() {
+  return "Hello World";
+}
 
 const observer = {
   next: (value) => console.log("next", value),
@@ -6,12 +10,10 @@ const observer = {
   complete: () => console.log("complete"),
 };
 
-const source$ = fromEvent(document, "keyup");
+const source$ = of(1, 2, 3, 4, 5);
 
 const subsciptionOne = source$.subscribe(observer);
-const subsciptionTwo = source$.subscribe(observer);
 
-setTimeout(() => {
-  console.log("unsubscribing one...");
-  subsciptionOne.unsubscribe();
-}, 3000);
+console.log(hello());
+
+subsciptionOne.unsubscribe();
