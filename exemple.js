@@ -1,4 +1,4 @@
-import { of } from "rxjs";
+import { range } from "rxjs";
 
 function hello() {
   return "Hello World";
@@ -10,7 +10,7 @@ const observer = {
   complete: () => console.log("complete"),
 };
 
-const source$ = of(1, 2, 3, 4, 5);
+const source$ = range(1, 5);
 
 const subsciptionOne = source$.subscribe(observer);
 
