@@ -1,4 +1,4 @@
-import { range } from "rxjs";
+import { from } from "rxjs";
 
 function hello() {
   return "Hello World";
@@ -10,10 +10,10 @@ const observer = {
   complete: () => console.log("complete"),
 };
 
-const source$ = range(1, 5);
+const source$ = from(fetch("https://api.github.com/users/octocat"));
 
 const subsciptionOne = source$.subscribe(observer);
 
 console.log(hello());
 
-subsciptionOne.unsubscribe();
+//subsciptionOne.unsubscribe();
