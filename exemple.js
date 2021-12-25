@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { fromEvent } from "rxjs";
 
 const observer = {
   next: (value) => console.log("next", value),
@@ -6,16 +6,12 @@ const observer = {
   complete: () => console.log("complete"),
 };
 
-const observable = new Observable((subscriber) => {
-  let count = 0;
+const source$ = fromEvent(document, "keyup");
 
-  const interval = setInterval(() => {
-    subscriber.next(count++);
-  }, 1000);
-});
-
-const subsciption = observable.subscribe(observer);
+const subsciptionOne = source$.subscribe(observer);
+const subsciptionTwo = source$.subscribe(observer);
 
 setTimeout(() => {
-  subsciption.unsubscribe();
-}, 3500);
+  console.log("unsubscribing one...");
+  subsciptionOne.unsubscribe();
+}, 3000);
