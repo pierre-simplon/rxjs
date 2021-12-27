@@ -1,5 +1,5 @@
-import { interval } from "rxjs";
+import { timer } from "rxjs";
 
-const timer$ = interval(1000);
+const timer$ = timer(3000, 1000);
 
 timer$.subscribe(console.log);
