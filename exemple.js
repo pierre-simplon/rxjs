@@ -1,8 +1,12 @@
 import { from } from "rxjs";
+import "babel-polyfill";
 
-function hello() {
-  return "Hello World";
+function* hello() {
+  yield "Hello";
+  yield "World";
 }
+
+const iterator = hello();
 
 const observer = {
   next: (value) => console.log("next", value),
@@ -10,10 +14,6 @@ const observer = {
   complete: () => console.log("complete"),
 };
 
-const source$ = from(fetch("https://api.github.com/users/octocat"));
+const source$ = from(iterator);
 
-const subsciptionOne = source$.subscribe(observer);
-
-console.log(hello());
-
-//subsciptionOne.unsubscribe();
+source$.subscribe(observer);
