@@ -1,5 +1,6 @@
-import { timer } from "rxjs";
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
 
-const timer$ = timer(3000, 1000);
-
-timer$.subscribe(console.log);
+of(1, 2, 3, 4, 5)
+  .pipe(map((x) => x * 10))
+  .subscribe(console.log);
