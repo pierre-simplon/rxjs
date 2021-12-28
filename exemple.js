@@ -1,6 +1,12 @@
-import { of } from "rxjs";
-import { map } from "rxjs/operators";
+import { fromEvent } from "rxjs";
+import { map, pluck } from "rxjs/operators";
 
-of(1, 2, 3, 4, 5)
-  .pipe(map((x) => x * 10))
-  .subscribe(console.log);
+const keyup$ = fromEvent(document, "keyup");
+
+const keycode$ = keyup$.pipe(map((event) => event.code));
+
+const keycodeWithPlug$ = keyup$.pipe(pluck("code"));
+
+keycode$.subscribe(console.log);
+
+keycodeWithPlug$.subscribe(console.warn);
