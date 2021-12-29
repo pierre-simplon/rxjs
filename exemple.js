@@ -1,13 +1,20 @@
-import { from } from "rxjs";
-import { scan } from "rxjs/operators";
+import { interval } from "rxjs";
+import { scan, mapTo, filter } from "rxjs/operators";
 
-const numbers$ = from([1, 2, 3, 4, 5]);
+const countdown = document.getElementById("countdown");
+const message = document.getElementById("message");
 
-const totalReducer = (acc, curr) => acc + curr;
+const counter$ = interval(1000);
 
-const total$ = numbers$.pipe(scan(totalReducer, 0));
-
-total$.subscribe({
-  next: console.log,
-  complete: () => console.log("complete"),
-});
+counter$
+  .pipe(
+    mapTo(-1),
+    scan((acc, curr) => acc + curr, 10),
+    filter((val) => val >= 0)
+  )
+  .subscribe((value) => {
+    countdown.innerHTML = value;
+    if (!value) {
+      message.innerHTML = "Lift Off!";
+    }
+  });
