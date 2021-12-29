@@ -1,8 +1,13 @@
-import { fromEvent } from "rxjs";
-import { filter } from "rxjs/operators";
+import { interval } from "rxjs";
+import { reduce, take } from "rxjs/operators";
 
-const keyup$ = fromEvent(document, "keyup");
+const numbers$ = interval([1, 2, 3, 4, 5], 1000);
 
-const enter$ = keyup$.pipe(filter((e) => e.code === "Enter"));
+const totalReducer = (acc, curr) => acc + curr;
 
-enter$.subscribe(console.log);
+const total$ = numbers$.pipe(take(3), reduce(totalReducer, 0));
+
+total$.subscribe({
+  next: console.log,
+  complete: () => console.log("complete"),
+});
