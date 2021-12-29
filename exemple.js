@@ -1,6 +1,8 @@
-import { of } from "rxjs";
+import { fromEvent } from "rxjs";
 import { filter } from "rxjs/operators";
 
-of(1, 2, 3, 4, 5)
-  .pipe(filter((value) => value > 2))
-  .subscribe(console.log);
+const keyup$ = fromEvent(document, "keyup");
+
+const enter$ = keyup$.pipe(filter((e) => e.code === "Enter"));
+
+enter$.subscribe(console.log);
