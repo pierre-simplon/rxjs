@@ -1,15 +1,15 @@
 import { fromEvent } from "rxjs";
-import { take, map } from "rxjs/operators";
+import { first, map } from "rxjs/operators";
 
 const click$ = fromEvent(document, "click");
 
 click$
   .pipe(
-    take(1),
     map((event) => ({
       x: event.clientX,
       y: event.clientY,
-    }))
+    })),
+    first((value) => value.x > 150)
   )
   .subscribe({
     next: console.log,
