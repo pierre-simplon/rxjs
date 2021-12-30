@@ -1,6 +1,6 @@
-import { of } from "rxjs";
-import { distinctUntilChanged } from "rxjs/operators";
+import { fromEvent } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
-const numbers$ = of(1, 1, 2, 2, 2, 1, 3, 4, 3, 2, 1);
+const click$ = fromEvent(document, "click");
 
-numbers$.pipe(distinctUntilChanged()).subscribe(console.log);
+click$.pipe(debounceTime(1000)).subscribe(console.log);
