@@ -1,9 +1,17 @@
-import { of } from "rxjs";
-import { take } from "rxjs/operators";
+import { fromEvent } from "rxjs";
+import { take, map } from "rxjs/operators";
 
-const numbers$ = of(1, 2, 3, 4, 5);
+const click$ = fromEvent(document, "click");
 
-numbers$.pipe(take(3)).subscribe({
-  next: console.log,
-  complete: () => console.log("complete"),
-});
+click$
+  .pipe(
+    take(1),
+    map((event) => ({
+      x: event.clientX,
+      y: event.clientY,
+    }))
+  )
+  .subscribe({
+    next: console.log,
+    complete: () => console.log("complete"),
+  });
