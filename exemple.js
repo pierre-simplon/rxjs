@@ -1,8 +1,10 @@
 import { fromEvent } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { debounceTime, pluck } from "rxjs/operators";
 
 const inputBox = document.getElementById("text-input");
 
 const input$ = fromEvent(inputBox, "keyup");
 
-input$.pipe(debounceTime(1000)).subscribe(console.log);
+input$
+  .pipe(debounceTime(1000), pluck("target", "value"))
+  .subscribe(console.log);
