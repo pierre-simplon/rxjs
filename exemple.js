@@ -1,14 +1,6 @@
-import { fromEvent, interval } from "rxjs";
-import { debounce, distinctUntilChanged, pluck } from "rxjs/operators";
+import { fromEvent } from "rxjs";
+import { throttleTime } from "rxjs/operators";
 
-const inputBox = document.getElementById("text-input");
+const click$ = fromEvent(document, "click");
 
-const input$ = fromEvent(inputBox, "keyup");
-
-input$
-  .pipe(
-    debounce(() => interval(1000)),
-    pluck("target", "value"),
-    distinctUntilChanged()
-  )
-  .subscribe(console.log);
+click$.pipe(throttleTime(1000)).subscribe(console.log);
