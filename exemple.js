@@ -1,6 +1,14 @@
 import { fromEvent } from "rxjs";
-import { throttleTime } from "rxjs/operators";
+import { sampleTime, map } from "rxjs/operators";
 
 const click$ = fromEvent(document, "click");
 
-click$.pipe(throttleTime(1000)).subscribe(console.log);
+click$
+  .pipe(
+    sampleTime(4000),
+    map(({ clientX, clientY }) => ({
+      clientX,
+      clientY,
+    }))
+  )
+  .subscribe(console.log);
