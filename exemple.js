@@ -1,17 +1,8 @@
-import { fromEvent } from "rxjs";
-import { ajax } from "rxjs/ajax";
-import { debounceTime, mergeMap } from "rxjs/operators";
+import { fromEvent, interval } from "rxjs";
+import { switchMap } from "rxjs/operators";
 
-const inputBox = document.getElementById("text-input");
+const click$ = fromEvent(document, "click");
 
-const textInput$ = fromEvent(inputBox, "keyup");
+const intervall$ = interval(1000);
 
-textInput$
-  .pipe(
-    debounceTime(500),
-    mergeMap((event) => {
-      const turnText = event.target.value;
-      return ajax.getJSON(`https://api.datamuse.com/words?sp=${turnText}`);
-    })
-  )
-  .subscribe(console.log);
+click$.pipe(switchMap(() => intervall$)).subscribe(console.log);
