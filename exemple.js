@@ -1,23 +1,8 @@
-import { fromEvent } from "rxjs";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  pluck,
-  switchMap,
-} from "rxjs/operators";
-import { ajax } from "rxjs/ajax";
+import { fromEvent, interval } from "rxjs";
+import { concatMap, take } from "rxjs/operators";
 
-const textInput = document.getElementById("text-input");
+const timer$ = interval(1000).pipe(take(3));
 
-const inputBox$ = fromEvent(textInput, "keyup");
+const click$ = fromEvent(document, "click");
 
-inputBox$
-  .pipe(
-    debounceTime(500),
-    pluck("target", "value"),
-    distinctUntilChanged(),
-    switchMap((value) =>
-      ajax.getJSON(`https://api.github.com/search/users?q=${value}`)
-    )
-  )
-  .subscribe(console.log);
+click$.pipe(concatMap(() => timer$)).subscribe(console.log);
